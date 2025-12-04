@@ -1,9 +1,97 @@
-## Database query best practices
+## Supabase Query Standards
 
-- **Prevent SQL Injection**: Always use parameterized queries or ORM methods; never interpolate user input into SQL strings
-- **Avoid N+1 Queries**: Use eager loading or joins to fetch related data in a single query instead of multiple queries
-- **Select Only Needed Data**: Request only the columns you need rather than using SELECT * for better performance
-- **Index Strategic Columns**: Index columns used in WHERE, JOIN, and ORDER BY clauses for query optimization
-- **Use Transactions for Related Changes**: Wrap related database operations in transactions to maintain data consistency
-- **Set Query Timeouts**: Implement timeouts to prevent runaway queries from impacting system performance
-- **Cache Expensive Queries**: Cache results of complex or frequently-run queries when appropriate
+### Basic CRUD Operations
+```typescript
+// lib/supabase/queries/tasks.ts
+import { createClient } from '@/lib/supabase/server';
+
+export async function getTasks(userId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('tasks')
+    .select('id, title, completed, deadline')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+
+  if (error) throw new Error('Failed to fetch tasks');
+  return data;
+}
+
+export async function createTask(task: TaskInsert) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('tasks')
+    .insert(task)
+    .select()
+    .single();
+
+  if (error) throw new Error('Failed to create task');
+  return data;
+}
+```
+
+### Select Only What You Need
+```typescript
+// Good: Select specific columns
+.select('id, title, completed')
+
+// Avoid: Select all columns
+.select('*')
+```
+
+### Joins and Relations
+```typescript
+// Fetch tasks with list info
+const { data } = await supabase
+  .from('tasks')
+  .select(`
+    id,
+    title,
+    list:lists(id, name)
+  `)
+  .eq('user_id', userId);
+```
+
+### Filtering and Pagination
+```typescript
+const { data } = await supabase
+  .from('tasks')
+  .select('*')
+  .eq('user_id', userId)
+  .eq('completed', false)
+  .order('deadline', { ascending: true, nullsFirst: false })
+  .range(0, 19); // First 20 items
+```
+
+### Transactions
+Use Supabase RPC for multi-statement transactions:
+
+```sql
+-- Create function in migration
+CREATE FUNCTION complete_task_with_subtasks(task_id UUID)
+RETURNS void AS $$
+BEGIN
+  UPDATE tasks SET completed = true WHERE id = task_id;
+  UPDATE subtasks SET completed = true WHERE parent_id = task_id;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+```
+
+```typescript
+await supabase.rpc('complete_task_with_subtasks', { task_id: taskId });
+```
+
+### Error Handling
+Always check for errors:
+
+```typescript
+const { data, error } = await supabase.from('tasks').select('*');
+if (error) {
+  console.error('Query failed:', error.message);
+  throw new Error('Failed to load tasks');
+}
+```
+
+### Client Types
+- **Server:** `createClient()` from `@/lib/supabase/server` (API routes, server components)
+- **Client:** `createClient()` from `@/lib/supabase/client` (client components)

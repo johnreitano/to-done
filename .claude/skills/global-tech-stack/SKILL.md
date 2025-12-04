@@ -1,7 +1,19 @@
 ---
 name: Global Tech Stack
-description: Your approach to handling global tech stack. Use this skill when working on files where global tech stack comes into play.
+description: Reference the project's tech stack including Next.js, React, TypeScript, Supabase, Tailwind CSS, Radix UI, Stripe, and OpenAI SDK. Use this skill when choosing technologies or libraries for new features, when understanding which tools are available in the project, when deciding between different implementation approaches, when checking version compatibility, when onboarding to the codebase, when selecting appropriate packages for new functionality, or when understanding the overall architecture.
 ---
+
+## When to use this skill
+
+- When choosing technologies or libraries for new features
+- When understanding which tools are available in the project
+- When deciding between different implementation approaches
+- When checking version compatibility for dependencies
+- When onboarding to understand the codebase architecture
+- When selecting packages for new functionality
+- When reviewing if a proposed library fits the stack
+- When understanding the frontend/backend/database architecture
+- When checking which testing tools to use (Jest, React Testing Library)
 
 # Global Tech Stack
 

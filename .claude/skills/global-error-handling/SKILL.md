@@ -1,7 +1,19 @@
 ---
 name: Global Error Handling
-description: Your approach to handling global error handling. Use this skill when working on files where global error handling comes into play.
+description: Implement error handling patterns for Next.js API routes, Supabase queries, and React components with proper logging and user-friendly messages. Use this skill when writing try-catch blocks in API routes, when handling Supabase { data, error } responses, when creating error.tsx files for App Router, when implementing client-side error states, when logging errors with context, when creating typed error classes, when implementing retry logic for external APIs, or when displaying user-friendly error messages.
 ---
+
+## When to use this skill
+
+- When writing try-catch blocks in API routes
+- When handling Supabase `{ data, error }` response patterns
+- When creating `error.tsx` files for App Router error boundaries
+- When implementing client-side error states with `useState`
+- When logging errors with context (user ID, action, input)
+- When creating typed error classes for different error categories
+- When implementing retry logic with exponential backoff
+- When displaying user-friendly error messages without exposing internals
+- When handling Stripe or OpenAI API errors
 
 # Global Error Handling
 

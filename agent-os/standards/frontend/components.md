@@ -1,11 +1,68 @@
-## UI component best practices
+## React Component Standards
 
-- **Single Responsibility**: Each component should have one clear purpose and do it well
-- **Reusability**: Design components to be reused across different contexts with configurable props
-- **Composability**: Build complex UIs by combining smaller, simpler components rather than monolithic structures
-- **Clear Interface**: Define explicit, well-documented props with sensible defaults for ease of use
-- **Encapsulation**: Keep internal implementation details private and expose only necessary APIs
-- **Consistent Naming**: Use clear, descriptive names that indicate the component's purpose and follow team conventions
-- **State Management**: Keep state as local as possible; lift it up only when needed by multiple components
-- **Minimal Props**: Keep the number of props manageable; if a component needs many props, consider composition or splitting it
-- **Documentation**: Document component usage, props, and provide examples for easier adoption by team members
+### Component Structure
+```tsx
+// components/TaskCard.tsx
+interface TaskCardProps {
+  task: Task;
+  onComplete?: (id: string) => void;
+  className?: string;
+}
+
+export function TaskCard({ task, onComplete, className }: TaskCardProps) {
+  // Hooks at top
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // Event handlers
+  function handleComplete() {
+    onComplete?.(task.id);
+  }
+
+  // Render
+  return (
+    <div className={cn('rounded-lg border p-4', className)}>
+      {/* ... */}
+    </div>
+  );
+}
+```
+
+### Component Principles
+- **Single responsibility:** One component, one purpose
+- **Props interface:** Always define TypeScript interface for props
+- **Optional className prop:** Allow style customization via Tailwind
+- **Named exports:** Use named exports for components
+
+### Server vs Client Components
+```tsx
+// Default: Server Component (no 'use client')
+// - Fetch data directly
+// - No hooks, no event handlers
+// - Better performance
+
+// Client Component: Add 'use client' when needed
+'use client';
+// - useState, useEffect, event handlers
+// - Browser APIs
+// - Interactivity required
+```
+
+### Composition over Configuration
+```tsx
+// Good: Composable
+<Card>
+  <CardHeader>
+    <CardTitle>Tasks</CardTitle>
+  </CardHeader>
+  <CardContent>...</CardContent>
+</Card>
+
+// Avoid: Too many props
+<Card title="Tasks" subtitle="..." headerIcon={...} />
+```
+
+### State Management
+- **Local state first:** useState for component-specific state
+- **Lift when needed:** Move state up only when siblings need it
+- **Server state:** Use React Query or SWR for API data
+- **Global state:** Context for auth/theme; avoid for most cases

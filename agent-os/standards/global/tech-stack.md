@@ -1,31 +1,33 @@
-## Tech stack
-
-Define your technical stack below. This serves as a reference for all team members and helps maintain consistency across the project.
+## Tech Stack Reference
 
 ### Framework & Runtime
-- **Application Framework:** [e.g., Rails, Django, Next.js, Express]
-- **Language/Runtime:** [e.g., Ruby, Python, Node.js, Java]
-- **Package Manager:** [e.g., bundler, pip, npm, yarn]
+- **Framework:** Next.js 14+ (App Router)
+- **Language:** TypeScript (strict mode)
+- **Runtime:** Node.js 18+
+- **Package Manager:** pnpm
 
 ### Frontend
-- **JavaScript Framework:** [e.g., React, Vue, Svelte, Alpine, vanilla JS]
-- **CSS Framework:** [e.g., Tailwind CSS, Bootstrap, custom]
-- **UI Components:** [e.g., shadcn/ui, Material UI, custom library]
+- **UI Library:** React 18+
+- **Components:** Radix UI primitives
+- **Styling:** Tailwind CSS
+- **State:** React hooks + context (server components where possible)
 
-### Database & Storage
-- **Database:** [e.g., PostgreSQL, MySQL, MongoDB]
-- **ORM/Query Builder:** [e.g., ActiveRecord, Prisma, Sequelize]
-- **Caching:** [e.g., Redis, Memcached]
-
-### Testing & Quality
-- **Test Framework:** [e.g., Jest, RSpec, pytest]
-- **Linting/Formatting:** [e.g., ESLint, Prettier, RuboCop]
-
-### Deployment & Infrastructure
-- **Hosting:** [e.g., Heroku, AWS, Vercel, Railway]
-- **CI/CD:** [e.g., GitHub Actions, CircleCI]
+### Backend & Database
+- **Database:** Supabase (PostgreSQL)
+- **Auth:** Supabase Auth (JWT)
+- **Realtime:** Supabase Realtime subscriptions
+- **Storage:** Supabase Storage
 
 ### Third-Party Services
-- **Authentication:** [e.g., Auth0, Devise, NextAuth]
-- **Email:** [e.g., SendGrid, Postmark]
-- **Monitoring:** [e.g., Sentry, Datadog]
+- **Payments:** Stripe (subscriptions, webhooks)
+- **AI:** OpenAI SDK (GPT models)
+- **Email:** TBD (future reminders)
+
+### Development
+- **Linting:** ESLint with Next.js config
+- **Formatting:** Prettier
+- **Testing:** Jest + React Testing Library
+
+### Deployment
+- **Hosting:** Vercel
+- **Database Hosting:** Supabase Cloud

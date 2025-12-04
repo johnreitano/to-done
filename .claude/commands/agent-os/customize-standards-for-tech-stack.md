@@ -55,4 +55,4 @@ Always provide concise examples of how to follow the standard
 
 ### Step 4: Improve associated skills
 
-Improve description and content of ALL skills in the folder `~/.claude/skills/` by running the command `/agent-os:improve-skills`
+Run this command: `/agent-os:improve-skills improve ALL skills in the folder ~/.claude/skills/`

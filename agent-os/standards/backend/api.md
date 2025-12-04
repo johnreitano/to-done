@@ -1,10 +1,91 @@
-## API endpoint standards and conventions
+## Next.js API Routes (App Router)
 
-- **RESTful Design**: Follow REST principles with clear resource-based URLs and appropriate HTTP methods (GET, POST, PUT, PATCH, DELETE)
-- **Consistent Naming**: Use consistent, lowercase, hyphenated or underscored naming conventions for endpoints across the API
-- **Versioning**: Implement API versioning strategy (URL path or headers) to manage breaking changes without disrupting existing clients
-- **Plural Nouns**: Use plural nouns for resource endpoints (e.g., `/users`, `/products`) for consistency
-- **Nested Resources**: Limit nesting depth to 2-3 levels maximum to keep URLs readable and maintainable
-- **Query Parameters**: Use query parameters for filtering, sorting, pagination, and search rather than creating separate endpoints
-- **HTTP Status Codes**: Return appropriate, consistent HTTP status codes that accurately reflect the response (200, 201, 400, 404, 500, etc.)
-- **Rate Limiting Headers**: Include rate limit information in response headers to help clients manage their usage
+### Route Handler Structure
+```typescript
+// app/api/tasks/route.ts
+import { createClient } from '@/lib/supabase/server';
+import { NextResponse } from 'next/server';
+
+export async function GET() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const { data, error } = await supabase
+    .from('tasks')
+    .select('*')
+    .eq('user_id', user.id);
+
+  if (error) {
+    return NextResponse.json({ error: 'Failed to fetch tasks' }, { status: 500 });
+  }
+
+  return NextResponse.json({ tasks: data });
+}
+
+export async function POST(request: Request) {
+  // Validate, create, return 201
+}
+```
+
+### Dynamic Routes
+```typescript
+// app/api/tasks/[id]/route.ts
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
+  // Fetch single task by id
+}
+```
+
+### Response Conventions
+- `200` - Success (GET, PUT, PATCH)
+- `201` - Created (POST)
+- `204` - No Content (DELETE)
+- `400` - Validation error
+- `401` - Unauthorized
+- `403` - Forbidden (authenticated but not allowed)
+- `404` - Not found
+- `500` - Server error
+
+### Authentication Pattern
+```typescript
+// Reusable auth check
+async function requireAuth() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    throw new Error('Unauthorized');
+  }
+  return { supabase, user };
+}
+```
+
+### Stripe Webhooks
+```typescript
+// app/api/webhooks/stripe/route.ts
+export async function POST(request: Request) {
+  const body = await request.text();
+  const signature = request.headers.get('stripe-signature')!;
+
+  const event = stripe.webhooks.constructEvent(
+    body,
+    signature,
+    process.env.STRIPE_WEBHOOK_SECRET!
+  );
+
+  // Handle event types
+  switch (event.type) {
+    case 'checkout.session.completed':
+      // Upgrade user tier
+      break;
+  }
+
+  return NextResponse.json({ received: true });
+}
+```

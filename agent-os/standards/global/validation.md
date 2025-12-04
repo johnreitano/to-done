@@ -1,11 +1,55 @@
-## Validation best practices
+## Validation Standards
 
-- **Validate on Server Side**: Always validate on the server; never trust client-side validation alone for security or data integrity
-- **Client-Side for UX**: Use client-side validation to provide immediate user feedback, but duplicate checks server-side
-- **Fail Early**: Validate input as early as possible and reject invalid data before processing
-- **Specific Error Messages**: Provide clear, field-specific error messages that help users correct their input
-- **Allowlists Over Blocklists**: When possible, define what is allowed rather than trying to block everything that's not
-- **Type and Format Validation**: Check data types, formats, ranges, and required fields systematically
-- **Sanitize Input**: Sanitize user input to prevent injection attacks (SQL, XSS, command injection)
-- **Business Rule Validation**: Validate business rules (e.g., sufficient balance, valid dates) at the appropriate application layer
-- **Consistent Validation**: Apply validation consistently across all entry points (web forms, API endpoints, background jobs)
+### Server-Side Validation (Required)
+Always validate in API routes and server actions—never trust client data.
+
+```typescript
+// Using Zod for schema validation
+import { z } from 'zod';
+
+const createTaskSchema = z.object({
+  title: z.string().min(1).max(200),
+  description: z.string().max(2000).optional(),
+  deadline: z.string().datetime().optional(),
+  listId: z.string().uuid().optional(),
+});
+
+export async function POST(request: Request) {
+  const body = await request.json();
+  const result = createTaskSchema.safeParse(body);
+
+  if (!result.success) {
+    return NextResponse.json(
+      { errors: result.error.flatten().fieldErrors },
+      { status: 400 }
+    );
+  }
+  // Use result.data (typed and validated)
+}
+```
+
+### Client-Side Validation (UX Only)
+Use for immediate feedback; duplicate all checks server-side.
+
+```typescript
+// React Hook Form with Zod
+const form = useForm<CreateTaskInput>({
+  resolver: zodResolver(createTaskSchema),
+});
+```
+
+### Supabase Row-Level Security
+Enforce access control at database level:
+
+```sql
+-- Users can only read their own tasks
+CREATE POLICY "Users read own tasks"
+ON tasks FOR SELECT
+USING (auth.uid() = user_id);
+```
+
+### Validation Principles
+- **Fail early:** Validate at API boundary before any processing
+- **Specific errors:** Return field-level error messages
+- **Allowlists:** Define allowed values explicitly (e.g., status enum)
+- **Sanitization:** Supabase parameterized queries prevent SQL injection; sanitize HTML for display

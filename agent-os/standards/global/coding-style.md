@@ -1,10 +1,44 @@
-## Coding style best practices
+## TypeScript/React Coding Style
 
-- **Consistent Naming Conventions**: Establish and follow naming conventions for variables, functions, classes, and files across the codebase
-- **Automated Formatting**: Maintain consistent code style (indenting, line breaks, etc.)
-- **Meaningful Names**: Choose descriptive names that reveal intent; avoid abbreviations and single-letter variables except in narrow contexts
-- **Small, Focused Functions**: Keep functions small and focused on a single task for better readability and testability
-- **Consistent Indentation**: Use consistent indentation (spaces or tabs) and configure your editor/linter to enforce it
-- **Remove Dead Code**: Delete unused code, commented-out blocks, and imports rather than leaving them as clutter
-- **Backward compatibility only when required:** Unless specifically instructed otherwise, assume you do not need to write additional code logic to handle backward compatibility.
-- **DRY Principle**: Avoid duplication by extracting common logic into reusable functions or modules
+### Naming Conventions
+- **Variables/Functions:** camelCase (`getUserById`, `isLoading`, `handleSubmit`)
+- **Components:** PascalCase (`TaskCard`, `UserProfile`)
+- **Types/Interfaces:** PascalCase with descriptive names (`TaskWithAssignee`, `CreateTaskInput`)
+- **Constants:** SCREAMING_SNAKE_CASE for true constants (`MAX_RETRIES`, `API_BASE_URL`)
+- **Files:** kebab-case for utilities (`format-date.ts`), PascalCase for components (`TaskCard.tsx`)
+- **Boolean prefixes:** `is`, `has`, `should`, `can` (`isLoading`, `hasPermission`)
+
+### TypeScript Standards
+- Enable `strict` mode in tsconfig.json
+- Prefer `interface` for object shapes, `type` for unions/intersections
+- Avoid `any`; use `unknown` for truly unknown types
+- Use explicit return types for exported functions
+
+```typescript
+// Good
+interface Task {
+  id: string;
+  title: string;
+  completed: boolean;
+}
+
+export function getTaskById(id: string): Task | null {
+  // ...
+}
+
+// Bad
+export function getTaskById(id: any) {
+  // ...
+}
+```
+
+### Code Organization
+- **2-space indentation** (configured via ESLint/Prettier)
+- Keep functions under 30 lines; extract helpers when exceeding
+- One component per file
+- Co-locate related files: `TaskCard.tsx`, `TaskCard.test.tsx`, `use-task.ts`
+- Remove unused imports, variables, and dead code immediately
+
+### Backward Compatibility
+- Unless specifically instructed, assume no backward compatibility code is needed
+- Delete unused code rather than commenting it out

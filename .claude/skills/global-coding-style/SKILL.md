@@ -1,7 +1,18 @@
 ---
 name: Global Coding Style
-description: Your approach to handling global coding style. Use this skill when working on files where global coding style comes into play.
+description: Write TypeScript and React code following consistent naming conventions, formatting, and organization patterns. Use this skill when naming variables functions components or files, when choosing between interface and type, when organizing imports and code structure, when applying camelCase PascalCase or SCREAMING_SNAKE_CASE, when configuring ESLint or Prettier, when deciding on function length and extraction, when removing dead code or unused imports, or when working on any TypeScript or TSX file.
 ---
+
+## When to use this skill
+
+- When naming variables, functions, components, or files
+- When choosing between `interface` and `type` in TypeScript
+- When organizing code structure within a file
+- When applying naming conventions (camelCase, PascalCase, SCREAMING_SNAKE_CASE)
+- When configuring or following ESLint/Prettier rules
+- When deciding whether to extract code into helper functions
+- When removing unused imports, variables, or dead code
+- When working on any `.ts` or `.tsx` file
 
 # Global Coding Style
 

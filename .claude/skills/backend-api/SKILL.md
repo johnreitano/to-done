@@ -1,7 +1,17 @@
 ---
 name: Backend API
-description: Your approach to handling backend API. Use this skill when working on files where backend API comes into play.
+description: Write Next.js App Router API routes with proper authentication, error handling, and response conventions. Use this skill when creating or editing files in app/api/, when implementing REST endpoints, when handling HTTP requests and responses, when integrating Supabase authentication in API routes, when implementing Stripe webhook handlers, when structuring route handlers with GET/POST/PUT/DELETE methods, or when returning appropriate HTTP status codes.
 ---
+
+## When to use this skill
+
+- When creating or editing files in `app/api/**/*.ts`
+- When implementing REST API endpoints
+- When adding authentication checks to API routes
+- When handling Supabase auth in server-side code
+- When implementing Stripe webhook handlers
+- When structuring API responses with proper status codes
+- When creating dynamic routes like `[id]/route.ts`
 
 # Backend API
 

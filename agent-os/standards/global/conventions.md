@@ -1,10 +1,36 @@
-## General development conventions
+## Next.js Project Conventions
 
-- **Consistent Project Structure**: Organize files and directories in a predictable, logical structure that team members can navigate easily
-- **Clear Documentation**: Maintain up-to-date README files with setup instructions, architecture overview, and contribution guidelines
-- **Environment Configuration**: Use environment variables for configuration; never commit secrets or API keys to version control
-- **Dependency Management**: Keep dependencies up-to-date and minimal; document why major dependencies are used
-- **Code Review Process**: Establish a consistent code review process with clear expectations for reviewers and authors
-- **Testing Requirements**: Define what level of testing is required before merging (unit tests, integration tests, etc.)
-- **Feature Flags**: Use feature flags for incomplete features rather than long-lived feature branches
-- **Changelog Maintenance**: Keep a changelog or release notes to track significant changes and improvements
+### Project Structure
+```
+app/                    # Next.js App Router pages
+  (auth)/              # Route groups for layouts
+  api/                 # API routes
+components/            # React components
+  ui/                  # Radix-based UI primitives
+lib/                   # Utilities and helpers
+  supabase/           # Supabase client and queries
+  stripe/             # Stripe integration
+hooks/                 # Custom React hooks
+types/                 # TypeScript type definitions
+```
+
+### Environment Configuration
+- Use `.env.local` for local development (gitignored)
+- Prefix client-exposed vars with `NEXT_PUBLIC_`
+- Never commit secrets; use Vercel/hosting env vars for production
+
+```bash
+# .env.local example
+NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+SUPABASE_SERVICE_ROLE_KEY=eyJ...  # Server-only
+```
+
+### Dependency Management
+- Use `pnpm` for package management (faster, strict)
+- Pin major versions in package.json
+- Audit dependencies before adding; prefer established packages
+
+### Feature Development
+- Use feature flags via environment variables for incomplete features
+- Keep `main` branch deployable at all times

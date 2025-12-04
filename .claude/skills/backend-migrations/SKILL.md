@@ -1,7 +1,17 @@
 ---
 name: Backend Migrations
-description: Your approach to handling backend migrations. Use this skill when working on files where backend migrations comes into play.
+description: Write Supabase database migrations with proper SQL syntax, Row-Level Security policies, and zero-downtime patterns. Use this skill when creating migration files in supabase/migrations/, when adding or modifying database tables and columns, when implementing RLS policies for data access control, when creating database indexes, when adding constraints or triggers, when planning schema changes that require zero-downtime deployment, or when generating migrations using the Supabase CLI.
 ---
+
+## When to use this skill
+
+- When creating files in `supabase/migrations/*.sql`
+- When adding new database tables or columns
+- When implementing Row-Level Security (RLS) policies
+- When creating database indexes for performance
+- When adding CHECK constraints or foreign keys
+- When planning multi-step zero-downtime migrations
+- When using `supabase db diff` to generate migrations
 
 # Backend Migrations
 
