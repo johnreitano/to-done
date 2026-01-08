@@ -1,8 +1,8 @@
 # Product Roadmap
 
-1. [ ] Scaffold App — Scaffold the rails app taking into account the tech stack. Provide a plain home page with just the text "Here is your new To-Done app" `XS`
+1. [x] Scaffold App — Scaffold the rails app taking into account the tech stack. Provide a plain home page with just the text "Here is your new To-Done app" `XS`
 
-2. [ ] Database Schema — Create the todos table with fields for title, completed status, and timestamps. Set up PostgreSQL database configuration for development and production environments. `XS`
+2. [-] Database Schema — Create the todos table with fields for title, completed status, and timestamps. Set up PostgreSQL database configuration for development and production environments. `XS`
 
 3. [ ] Todo Model — Implement the Todo model with validations ensuring title presence and completed boolean default. Add any necessary scopes for filtering todos. `XS`
 
